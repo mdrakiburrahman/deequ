@@ -81,6 +81,9 @@ error file=/home/boor/deequ/src/main/scala/com/amazon/deequ/dqdl/executors/Unsup
 
 Fix the files like such:
 
-```
-sed -i -e 's/[[:space:]]*$//' -e '$a\' /home/boor/deequ/src/main/scala/com/amazon/deequ/dqdl/executors/UnsupportedRulesExecutor.scala
+```bash
+changed_files=($(git status --porcelain | awk '{print $2}'))
+for file in "${changed_files[@]}"; do
+    sed -i -e 's/[[:space:]]*$//' -e '$a\' "$file"
+done
 ```
