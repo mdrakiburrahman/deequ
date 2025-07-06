@@ -14,63 +14,64 @@
  *
  */
 
-package com.amazon.deequ.dqdl.translation
+ package com.amazon.deequ.dqdl.translation
 
-import com.amazon.deequ.dqdl.model.DeequExecutableRule
-import com.amazon.deequ.utils.ConditionUtils.ConditionAsString
-import org.scalatest.matchers.should.Matchers
-import org.scalatest.wordspec.AnyWordSpec
-import software.amazon.glue.dqdl.model.DQRule
-import com.amazon.deequ.dqdl.model.UnsupportedExecutableRule
-import com.amazon.deequ.dqdl.util.DefaultDQDLParser
-import software.amazon.glue.dqdl.model.DQRuleset
-
-
-import scala.jdk.CollectionConverters.mapAsJavaMapConverter
+ import com.amazon.deequ.dqdl.model.DeequExecutableRule
+ import com.amazon.deequ.utils.ConditionUtils.ConditionAsString
+ import org.scalatest.matchers.should.Matchers
+ import org.scalatest.wordspec.AnyWordSpec
+ import software.amazon.glue.dqdl.model.DQRule
+ import com.amazon.deequ.dqdl.model.UnsupportedExecutableRule
+ import com.amazon.deequ.dqdl.util.DefaultDQDLParser
+ import software.amazon.glue.dqdl.model.DQRuleset
 
 
-class DQDLRuleTranslatorSpec extends AnyWordSpec with Matchers {
+ import scala.jdk.CollectionConverters.mapAsJavaMapConverter
 
-  "DQDL rules translator" should {
-    "translate RowCount rule" in {
-      // given
-      val parameters: Map[String, String] = Map.empty
-      val rule: DQRule = new DQRule("RowCount", parameters.asJava, ">100".asCondition)
 
-      // when
-      val deequRuleOpt: Option[DeequExecutableRule] = DQDLRuleTranslator.translateRule(rule).toOption
+ class DQDLRuleTranslatorSpec extends AnyWordSpec with Matchers {
 
-      // then
-      deequRuleOpt shouldBe defined
-      deequRuleOpt.get.check.toString should include("SizeConstraint")
-    }
-  }
+   "DQDL rules translator" should {
+     "translate RowCount rule" in {
+       // given
+       val parameters: Map[String, String] = Map.empty
+       val rule: DQRule = new DQRule("RowCount", parameters.asJava, ">100".asCondition)
 
-  "get executable rules for RowCount" in {
-    // given
-    val ruleset: DQRuleset = DefaultDQDLParser.parse("Rules=[RowCount > 10]")
+       // when
+       val deequRuleOpt: Option[DeequExecutableRule] = DQDLRuleTranslator.translateRule(rule).toOption
 
-    // when
-    val rules = DQDLRuleTranslator.toExecutableRules(ruleset)
+       // then
+       deequRuleOpt shouldBe defined
+       deequRuleOpt.get.check.toString should include("SizeConstraint")
+     }
+   }
 
-    // then
-    rules.size should equal(1)
-    val rule = rules.head
-    rule.evaluatedMetricName.get should equal("Dataset.*.RowCount")
-    rule.dqRule.getRuleType should equal("RowCount")
-  }
+   "get executable rules for RowCount" in {
+     // given
+     val ruleset: DQRuleset = DefaultDQDLParser.parse("Rules=[RowCount > 10]")
 
-  "get unknown executable rule" in {
-    // given
-    val ruleset: DQRuleset = DefaultDQDLParser.parse("Rules=[Completeness \"Name\" > 0.8]")
+     // when
+     val rules = DQDLRuleTranslator.toExecutableRules(ruleset)
 
-    // when
-    val rules = DQDLRuleTranslator.toExecutableRules(ruleset)
+     // then
+     rules.size should equal(1)
+     val rule = rules.head
+     rule.evaluatedMetricName.get should equal("Dataset.*.RowCount")
+     rule.dqRule.getRuleType should equal("RowCount")
+   }
 
-    // then
-    rules.size should equal(1)
-    val rule = rules.head
-    rule shouldBe an[UnsupportedExecutableRule]
-    rule.evaluatedMetricName should equal(None)
-  }
-}
+   "get unknown executable rule" in {
+     // given
+     val ruleset: DQRuleset = DefaultDQDLParser
+       .parse("Rules=[CustomSql \"select count(*) from primary\" between 10 and 20]")
+
+     // when
+     val rules = DQDLRuleTranslator.toExecutableRules(ruleset)
+
+     // then
+     rules.size should equal(1)
+     val rule = rules.head
+     rule shouldBe an[UnsupportedExecutableRule]
+     rule.evaluatedMetricName should equal(None)
+   }
+ }
