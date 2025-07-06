@@ -69,3 +69,18 @@ cp /home/boor/deequ/settings.xml ~/.m2/settings.xml
 
 mvn deploy -DskipTests
 ```
+
+## Lint
+
+If scalastyle complains during `mvn clean verify`
+
+```bash
+error file=/home/boor/deequ/src/main/scala/com/amazon/deequ/dqdl/executors/UnsupportedRulesExecutor.scala message=Whitespace at end of line line=23 column=0
+error file=/home/boor/deequ/src/main/scala/com/amazon/deequ/dqdl/executors/UnsupportedRulesExecutor.scala message=File must end with newline character
+```
+
+Fix the files like such:
+
+```
+sed -i -e 's/[[:space:]]*$//' -e '$a\' /home/boor/deequ/src/main/scala/com/amazon/deequ/dqdl/executors/UnsupportedRulesExecutor.scala
+```
