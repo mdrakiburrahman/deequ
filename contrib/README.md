@@ -57,3 +57,15 @@ mvn clean package -DskipTests
 # Note that the code in this branch only works for Spark 3.X.
 # To build for a different version of Spark, you must fork another branch.
 ```
+
+## Publish
+
+```bash
+export MAVEN_REPO_ID="monitoring"
+export MAVEN_REPO_USERNAME="msdata"
+export PERSONAL_ACCESS_TOKEN="$(az account get-access-token --resource '499b84ac-1321-427f-aa17-267ca6975798' --query accessToken --output tsv --tenant '72f988bf-86f1-41af-91ab-2d7cd011db47')"
+
+cp /home/boor/deequ/settings.xml ~/.m2/settings.xml
+
+mvn deploy -DskipTests
+```

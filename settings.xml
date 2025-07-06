@@ -1,21 +1,12 @@
-<settings>
-    <servers>
-        <server>
-            <id>ossrh</id>
-            <username>${env.MAVEN_REPO_USERNAME}</username>
-            <password>${env.MAVEN_REPO_PASSWORD}</password>
-        </server>
-    </servers>
-    <profiles>
-        <profile>
-            <id>release</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <gpg.executable>gpg</gpg.executable>
-                <gpg.keyname>DBF0F18920DAB3377B638B5579288555449C57B1</gpg.keyname>	
-            </properties>
-        </profile>
-    </profiles>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+                              https://maven.apache.org/xsd/settings-1.0.0.xsd">
+  <servers>
+    <server>
+      <id>${env.MAVEN_REPO_ID}</id>
+      <username>${env.MAVEN_REPO_USERNAME}</username>
+      <password>${env.PERSONAL_ACCESS_TOKEN}</password>
+    </server>
+  </servers>
 </settings>
