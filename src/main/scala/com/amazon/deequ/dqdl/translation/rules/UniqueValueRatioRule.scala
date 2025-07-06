@@ -25,12 +25,13 @@
 
  import scala.collection.JavaConverters._
 
- case class IsCompleteRule() extends DQDLRuleConverter {
+ case class UniqueValueRatioRule() extends DQDLRuleConverter {
    override def convert(rule: DQRule): Either[String, (Check, Seq[DeequMetricMapping])] = {
      val col = rule.getParameters.asScala("TargetColumn")
-     val check = Check(CheckLevel.Error, java.util.UUID.randomUUID.toString).isComplete(col)
+     val check = Check(CheckLevel.Error, java.util.UUID.randomUUID.toString)
+       .hasUniqueValueRatio(Seq(col), assertionAsScala(rule, rule.getCondition.asInstanceOf[NumberBasedCondition]))
      Right(
        addWhereClause(rule, check),
-       Seq(DeequMetricMapping("Column", col, "Completeness", "Completeness", None, rule = rule)))
+       Seq(DeequMetricMapping("Column", col, "UniqueValueRatio", "UniqueValueRatio", None, rule = rule)))
    }
  }

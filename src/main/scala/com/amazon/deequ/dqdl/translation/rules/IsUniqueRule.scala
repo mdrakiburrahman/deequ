@@ -39,13 +39,9 @@
 
        case cols@(head +: tail) =>
          val multiColCheck = check.areUnique(columns)
-         Right((addWhereClause(rule, multiColCheck),
-           Seq(
-            DeequMetricMapping(
-              "Multicolumn", columns.mkString(","), "Uniqueness", "Uniqueness", None, rule = rule
-              )
-            )
-          ))
+         Right(
+           addWhereClause(rule, multiColCheck),
+           Seq(DeequMetricMapping("Multicolumn", columns.mkString(","), "Uniqueness", "Uniqueness", None, rule = rule)))
      }
    }
  }

@@ -43,12 +43,9 @@
        case cols@(head +: tail) =>
          val multiColCheck = check
            .hasUniqueness(columns, assertionAsScala(rule, rule.getCondition.asInstanceOf[NumberBasedCondition]))
-         Right((addWhereClause(rule, multiColCheck),
-           Seq(
-             DeequMetricMapping(
-               "Multicolumn", columns.mkString(","), "Uniqueness", "Uniqueness", None, rule = rule
-             )
-           )))
+         Right(
+           addWhereClause(rule, multiColCheck),
+           Seq(DeequMetricMapping("Multicolumn", columns.mkString(","), "Uniqueness", "Uniqueness", None, rule = rule)))
      }
    }
  }
