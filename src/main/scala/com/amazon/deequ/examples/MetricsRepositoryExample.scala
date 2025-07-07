@@ -86,5 +86,7 @@ object MetricsRepositoryExample extends App {
       .withTagValues(Map("tag" -> "repositoryExample"))
       .getSuccessMetricsAsDataFrame(session)
       .show()
+
+    println(s"Metrics file: ${metricsFile.getAbsolutePath}")
   }
 }

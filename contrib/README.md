@@ -91,5 +91,5 @@ done
 ## Run examples
 
 ```bash
-mvn exec:java -Dexec.mainClass="com.amazon.deequ.examples.MetricsRepositoryExample"
+mvn compile exec:java -Dexec.mainClass="com.amazon.deequ.examples.MetricsRepositoryExample"
 ```
