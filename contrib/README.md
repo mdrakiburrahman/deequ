@@ -87,3 +87,9 @@ for file in "${changed_files[@]}"; do
     sed -i -e 's/[[:space:]]*$//' -e '$a\' "$file"
 done
 ```
+
+## Run examples
+
+```
+mvn exec:java -Dexec.mainClass="com.amazon.deequ.examples.MetricsRepositoryExample"
+```
