@@ -837,7 +837,7 @@ private[deequ] object BucketDistributionSerializer extends JsonSerializer[Bucket
 
     val parametersArray = new JsonArray()
     bucketDistribution.parameters.foreach { param =>
-      parametersArray.add(param)
+      parametersArray.add(new JsonPrimitive(param))
     }
     result.add("parameters", parametersArray)
 
@@ -845,7 +845,7 @@ private[deequ] object BucketDistributionSerializer extends JsonSerializer[Bucket
     bucketDistribution.data.foreach { row =>
       val rowArray = new JsonArray()
       row.foreach { value =>
-        rowArray.add(value)
+        rowArray.add(new JsonPrimitive(value))
       }
       dataArray.add(rowArray)
     }
