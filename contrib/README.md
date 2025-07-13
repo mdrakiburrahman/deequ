@@ -93,3 +93,9 @@ done
 ```bash
 mvn compile exec:java -Dexec.mainClass="com.amazon.deequ.examples.MetricsRepositoryExample"
 ```
+
+## Run test
+
+```bash
+mvn test -Dsuites=com.amazon.deequ.dqdl.EvaluateDataQualitySpec
+```
